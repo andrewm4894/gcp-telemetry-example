@@ -71,3 +71,4 @@ where
 */
 ```
 
+![Alt text](misc/bq.jpg?raw=true "Results in BigQuery UI.")
