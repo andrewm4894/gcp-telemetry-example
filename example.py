@@ -18,7 +18,7 @@ data = {
     "bq_destination_dataset": "tmp",
     "bq_destination_table": "tmp",
     "event_type": "default",
-    "event_key": "123456",
+    "event_key": "mykey",
     "event_data": json.dumps(event_data)
 }
 
