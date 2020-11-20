@@ -1,0 +1,5 @@
+select
+  '' as timestamp,
+  'empty' as event_type,
+  'empty' as event_key,
+  'empty' as event_data

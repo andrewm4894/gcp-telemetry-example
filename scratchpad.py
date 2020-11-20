@@ -11,9 +11,10 @@ event_data = {
     "some_dict": {"some_list": ['foo', 'bar']}
 }
 data = {
+    "gcs_custom_prefix": "andrewm4894",
     "bq_destination_project": "gcp-telemetry-example",
-    "bq_destination_dataset": "tmp",
-    "bq_destination_table": "tmp",
+    "bq_destination_dataset": "tmp_a",
+    "bq_destination_table": "tmp_a2",
     "event_type": "default",
     "event_key": "123456",
     "event_data": json.dumps(event_data)

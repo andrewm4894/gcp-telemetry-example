@@ -9,7 +9,7 @@ variable "pyfunc_info_handle_telemetry_event" {
   type = map(string)
   default = {
     name    = "handle_telemetry_event"
-    version = "v1.1"
+    version = "v1.2"
   }
 }
 
@@ -41,8 +41,8 @@ resource "google_cloudfunctions_function" "pyfunc_handle_telemetry_event" {
   source_archive_object = google_storage_bucket_object.pyfunc_zip_handle_telemetry_event.name
   trigger_http          = true
   entry_point           = "handle_telemetry_event"
-  timeout = 520
-  runtime = "python37"
+  timeout               = 520
+  runtime               = "python37"
   environment_variables = {
   }
 }
@@ -51,6 +51,6 @@ resource "google_cloudfunctions_function_iam_member" "pyfunc_invoker_handle_tele
   project        = google_cloudfunctions_function.pyfunc_handle_telemetry_event.project
   region         = google_cloudfunctions_function.pyfunc_handle_telemetry_event.region
   cloud_function = google_cloudfunctions_function.pyfunc_handle_telemetry_event.name
-  role   = "roles/cloudfunctions.invoker"
-  member = "allUsers"
+  role           = "roles/cloudfunctions.invoker"
+  member         = "allUsers"
 }

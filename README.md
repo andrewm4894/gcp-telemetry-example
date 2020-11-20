@@ -6,9 +6,10 @@
 curl --location --request POST 'https://us-east1-gcp-telemetry-example.cloudfunctions.net/handle_telemetry_event' \
 --header 'Content-Type: application/json' \
 --data-raw '{
+    "gcs_custom_prefix": "andrewm4894", 
     "bq_destination_project": "gcp-telemetry-example", 
-    "bq_destination_dataset": "tmp",
-    "bq_destination_table": "tmp",
+    "bq_destination_dataset": "tmp_a",
+    "bq_destination_table": "tmp_a2",
     "event_type": "default",
     "event_key": "mykey",
     "event_data": "{'\''some_value'\'':'\''some_key'\''}"
@@ -29,6 +30,7 @@ event_data = {
     "some_dict": {"some_list": ['foo', 'bar']}
 }
 data = {
+    "gcs_custom_prefix": "andrewm4894",
     "bq_destination_project": "gcp-telemetry-example",
     "bq_destination_dataset": "tmp",
     "bq_destination_table": "tmp",
