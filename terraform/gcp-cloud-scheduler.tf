@@ -29,3 +29,30 @@ resource "google_cloud_scheduler_job" "telemetry_data_liveness" {
     }))
   }
 }
+
+###########################################################
+# telemetry_data_example
+###########################################################
+
+resource "google_cloud_scheduler_job" "telemetry_data_example" {
+  for_each    = toset(var.telemetry_dataset_table_list)
+  name        = "telemetry_data_example_${replace(each.value, "/", "_")}"
+  description = "Send an example event to the endpoint for ${each.value}"
+  schedule    = "*/10 * * * *"
+  http_target {
+    http_method = "POST"
+    uri         = google_cloudfunctions_function.pyfunc_handle_telemetry_event.https_trigger_url
+    headers = {
+      "content-type" : "application/json"
+    }
+    body = base64encode(jsonencode({
+      "gcs_custom_prefix" : var.custom_prefix,
+      "bq_destination_project" : var.gcp_project_id,
+      "bq_destination_dataset" : element(split("/", each.value), 0),
+      "bq_destination_table" : element(split("/", each.value), 1),
+      "event_type" : "example",
+      "event_key" : "example",
+      "event_data" : var.example_event_data[each.value]
+    }))
+  }
+}
