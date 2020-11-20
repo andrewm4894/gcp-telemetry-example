@@ -20,3 +20,25 @@ resource "google_bigquery_data_transfer_config" "telemetry_data_empty" {
     query                           = file("sql/telemetry_empty.sql")
   }
 }
+
+###########################################################
+# telemetry_data_parsed
+###########################################################
+
+resource "google_bigquery_data_transfer_config" "telemetry_data_parsed" {
+  for_each               = toset(var.telemetry_dataset_table_list)
+  display_name           = replace(each.value, "/", ".")
+  data_source_id         = "scheduled_query"
+  schedule               = "every day 02:00"
+  destination_dataset_id = element(split("/", each.value), 0)
+  location               = var.gcp_bq_location
+  params = {
+    destination_table_name_template = "parsed_${element(split("/", each.value), 1)}_{run_time-24h|\"%Y%m%d\"}"
+    write_disposition               = "WRITE_TRUNCATE"
+    query = templatefile("sql/${replace(each.value, "/", ".")}.sql", {
+      gcp_project_id : var.gcp_project_id,
+      dataset_name : element(split("/", each.value), 0),
+      table_name : element(split("/", each.value), 1),
+    })
+  }
+}

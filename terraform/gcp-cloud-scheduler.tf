@@ -11,7 +11,7 @@ resource "google_cloud_scheduler_job" "telemetry_data_liveness" {
   for_each    = toset(var.telemetry_dataset_table_list)
   name        = "telemetry_data_liveness_${replace(each.value, "/", "_")}"
   description = "Send a liveness event to the endpoint for ${each.value}"
-  schedule    = "*/1 * * * *"
+  schedule    = "*/15 * * * *"
   http_target {
     http_method = "POST"
     uri         = google_cloudfunctions_function.pyfunc_handle_telemetry_event.https_trigger_url
