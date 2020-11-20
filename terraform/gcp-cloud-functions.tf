@@ -38,7 +38,7 @@ resource "google_storage_bucket_object" "pyfunc_zip_handle_telemetry_event" {
 resource "google_cloudfunctions_function" "pyfunc_handle_telemetry_event" {
   name                  = var.pyfunc_info_handle_telemetry_event.name
   description           = "Save event data to the relevant GCS bucket as defined by the body of received http POST."
-  available_memory_mb   = 128
+  available_memory_mb   = 256
   source_archive_bucket = google_storage_bucket.pyfunc_handle_telemetry_event.name
   source_archive_object = google_storage_bucket_object.pyfunc_zip_handle_telemetry_event.name
   trigger_http          = true
