@@ -1,3 +1,7 @@
+/*
+Create an empty row to insert into an event table.
+*/
+
 select
   '' as timestamp,
   'empty' as event_type,

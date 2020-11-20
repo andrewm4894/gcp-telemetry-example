@@ -18,6 +18,7 @@ variable "custom_prefix" {
   default = "andrewm4894"
 }
 
+# define datasets in scope
 variable "telemetry_dataset_list" {
   type = list(string)
   default = [
@@ -26,6 +27,7 @@ variable "telemetry_dataset_list" {
   ]
 }
 
+# define datasets and tables in scope
 variable "telemetry_dataset_table_list" {
   type = list(string)
   default = [

@@ -8,9 +8,9 @@ curl --location --request POST 'https://us-east1-gcp-telemetry-example.cloudfunc
 --data-raw '{
     "gcs_custom_prefix": "andrewm4894", 
     "bq_destination_project": "gcp-telemetry-example", 
-    "bq_destination_dataset": "tmp_a",
-    "bq_destination_table": "tmp_a2",
-    "event_type": "default",
+    "bq_destination_dataset": "dataset_a",
+    "bq_destination_table": "table_a2",
+    "event_type": "dev",
     "event_key": "mykey",
     "event_data": "{'\''some_value'\'':'\''some_key'\''}"
     }'
@@ -32,9 +32,9 @@ event_data = {
 data = {
     "gcs_custom_prefix": "andrewm4894",
     "bq_destination_project": "gcp-telemetry-example",
-    "bq_destination_dataset": "tmp",
-    "bq_destination_table": "tmp",
-    "event_type": "default",
+    "bq_destination_dataset": "dataset_a",
+    "bq_destination_table": "table_a1",
+    "event_type": "dev",
     "event_key": "mykey",
     "event_data": json.dumps(event_data)
 }
@@ -52,25 +52,9 @@ print(response.json())
 select
   *
 from
-  `gcp-telemetry-example.tmp.tmp_20201119`
+  `gcp-telemetry-example.dataset_a.table_a1_20201119`
 where
-  event_key = 'mykey'
-/*
-[
-  {
-    "timestamp": "2020-11-19 23:29:50.803099 UTC",
-    "event_type": "default",
-    "event_key": "mykey",
-    "event_data": "{'some_value':'some_key'}"
-  },
-  {
-    "timestamp": "2020-11-19 23:27:11.601436 UTC",
-    "event_type": "default",
-    "event_key": "mykey",
-    "event_data": "{\"some_string\": \"a string\", \"some_list\": [\"a\", \"b\", \"c\"], \"some_int\": 42, \"some_float\": 0.99, \"some_dict\": {\"some_list\": [\"foo\", \"bar\"]}}"
-  }
-]
-*/
+  event_type = 'dev'
 ```
 
 ![Alt text](misc/bq.jpg?raw=true "Results in BigQuery UI.")

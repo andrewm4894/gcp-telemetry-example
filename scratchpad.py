@@ -13,14 +13,13 @@ event_data = {
 data = {
     "gcs_custom_prefix": "andrewm4894",
     "bq_destination_project": "gcp-telemetry-example",
-    "bq_destination_dataset": "tmp_a",
-    "bq_destination_table": "tmp_a2",
-    "event_type": "default",
+    "bq_destination_dataset": "dataset_a",
+    "bq_destination_table": "table_a1",
+    "event_type": "dev",
     "event_key": "123456",
     "event_data": json.dumps(event_data)
 }
 response = process_request_json(data)
 print(response)
-
 
 #%%

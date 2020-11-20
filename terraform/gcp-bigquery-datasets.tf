@@ -1,6 +1,11 @@
-####################
-## tmp
-####################
+###########################################################
+# tmp
+###########################################################
+
+/*
+Temporary dataset for dev and testing. Tables will automatically
+be expired and deleted.
+*/
 
 resource "google_bigquery_dataset" "tmp" {
   dataset_id                  = "tmp"
@@ -9,13 +14,17 @@ resource "google_bigquery_dataset" "tmp" {
   description                 = "Temp dataset for dev and testing - tables will be automatically deleted."
 }
 
-####################
-## telemetry_datasets
-####################
+###########################################################
+# telemetry_datasets
+###########################################################
+
+/*
+Dataset for specific events.
+*/
 
 resource "google_bigquery_dataset" "telemetry_datasets" {
   for_each    = toset(var.telemetry_dataset_list)
   dataset_id  = each.value
   location    = "US"
-  description = "Dataset for ${each.value}"
+  description = "Dataset for ${each.value} data."
 }

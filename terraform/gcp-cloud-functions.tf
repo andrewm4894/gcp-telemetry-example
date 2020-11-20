@@ -1,15 +1,17 @@
-########################################
-## handle-telemetry-event
-########################################
+###########################################################
+# handle-telemetry-event
+###########################################################
 
 /*
+Function to handle http event and save to relevant GCS bucket.
 */
 
+# define some metadata about the function, useful for easily incrementing by changing version number
 variable "pyfunc_info_handle_telemetry_event" {
   type = map(string)
   default = {
     name    = "handle_telemetry_event"
-    version = "v1.2"
+    version = "v1.3"
   }
 }
 
@@ -35,18 +37,19 @@ resource "google_storage_bucket_object" "pyfunc_zip_handle_telemetry_event" {
 # define the function resource
 resource "google_cloudfunctions_function" "pyfunc_handle_telemetry_event" {
   name                  = var.pyfunc_info_handle_telemetry_event.name
-  description           = "handle_telemetry_event"
-  available_memory_mb   = 256
+  description           = "Save event data to the relevant GCS bucket as defined by the body of received http POST."
+  available_memory_mb   = 128
   source_archive_bucket = google_storage_bucket.pyfunc_handle_telemetry_event.name
   source_archive_object = google_storage_bucket_object.pyfunc_zip_handle_telemetry_event.name
   trigger_http          = true
-  entry_point           = "handle_telemetry_event"
-  timeout               = 520
+  entry_point           = var.pyfunc_info_handle_telemetry_event.name
+  timeout               = 120
   runtime               = "python37"
   environment_variables = {
   }
 }
 
+# define iam settings for the function
 resource "google_cloudfunctions_function_iam_member" "pyfunc_invoker_handle_telemetry_event" {
   project        = google_cloudfunctions_function.pyfunc_handle_telemetry_event.project
   region         = google_cloudfunctions_function.pyfunc_handle_telemetry_event.region
