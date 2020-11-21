@@ -23,4 +23,7 @@ resource "google_bigquery_data_transfer_config" "telemetry_data_gcs_to_bq" {
     allow_quoted_newlines           = "true"
     ignore_unknown_values           = "true"
   }
+  email_preferences {
+    enable_failure_email = true
+  }
 }
