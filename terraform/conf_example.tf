@@ -21,3 +21,19 @@ variable "gcp_project_number" {
   default = "123456789"
 }
 */
+
+/*
+variable "service_account_email" {
+  type    = string
+  default = "blah@blah"
+}
+*/
+
+/*
+variable "cloud_function_members_list" {
+  type = list(string)
+  default = [
+    "serviceAccount:blah@blah",
+  ]
+}
+*/

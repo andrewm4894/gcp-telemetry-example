@@ -71,7 +71,7 @@ variable "pyfunc_info_compose_telemetry_events" {
   type = map(string)
   default = {
     name    = "compose_telemetry_events"
-    version = "v0.1"
+    version = "v0.2"
   }
 }
 
@@ -98,12 +98,15 @@ resource "google_storage_bucket_object" "pyfunc_zip_compose_telemetry_events" {
 resource "google_cloudfunctions_function" "pyfunc_compose_telemetry_events" {
   name                  = var.pyfunc_info_compose_telemetry_events.name
   description           = "Compose multiple single events into a bigger events file."
-  available_memory_mb   = 256
+  available_memory_mb   = 1024
   source_archive_bucket = google_storage_bucket.pyfunc_compose_telemetry_events.name
   source_archive_object = google_storage_bucket_object.pyfunc_zip_compose_telemetry_events.name
-  trigger_http          = true
-  entry_point           = var.pyfunc_info_compose_telemetry_events.name
-  timeout               = 120
+  entry_point           = "compose_telemetry_events"
+  event_trigger {
+    event_type = "google.pubsub.topic.publish"
+    resource   = google_pubsub_topic.compose_telemetry_events.id
+  }
+  timeout               = 540
   runtime               = "python37"
   environment_variables = {
     GCS_CUSTOM_PREFIX = var.gcs_custom_prefix

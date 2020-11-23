@@ -54,7 +54,7 @@ def process_event(event_data_json):
     return response
 
 
-def handle_telemetry_event(event, context=None):
+def compose_telemetry_events(event, context=None):
     """
     """
 
