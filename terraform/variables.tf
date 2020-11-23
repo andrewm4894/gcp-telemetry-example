@@ -15,7 +15,7 @@ variable "gcp_bq_location" {
 
 variable "gcs_custom_prefix" {
   type    = string
-  default = var.gcp_project_id
+  default = "andrewm4894"
 }
 
 # define datasets in scope
