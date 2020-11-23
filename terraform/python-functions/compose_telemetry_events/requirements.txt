@@ -1,0 +1,3 @@
+opentelemetry-api
+opentelemetry-instrumentation
+google-cloud-storage==1.33.0

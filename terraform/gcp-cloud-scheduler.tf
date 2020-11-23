@@ -54,3 +54,26 @@ resource "google_cloud_scheduler_job" "telemetry_data_example" {
     }))
   }
 }
+
+############################################################
+## compose_telemetry_events
+############################################################
+
+/*
+compose_telemetry_events
+*/
+
+resource "google_cloud_scheduler_job" "compose_telemetry_events" {
+  for_each    = toset(var.telemetry_dataset_table_list)
+  name        = "compose_telemetry_events_${replace(each.value, "/", "_")}"
+  description = "Compose telemetry events for ${each.value}"
+  schedule    = "*/10 * * * *"
+  pubsub_target {
+    topic_name = google_pubsub_topic.compose_telemetry_events.id
+    # data to pass to function being called
+    data = base64encode(jsonencode({
+      "dataset" : element(split("/", each.value), 0),
+      "table" : element(split("/", each.value), 1),
+    }))
+  }
+}

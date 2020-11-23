@@ -1,11 +1,13 @@
 # gcp-telemetry-example
 
+## Overview
+
 1. Public HTTP cloud function receives POST requests.
 2. Cloud function saves event as a json file to GCS specific to each `dataset` and `table` combination.
 3. BigQuery data transfer job to ingest GCS files into `<dataset>.raw_<table>_yyyymmdd` tables in BigQuery.
 4. Scheduled BigQuery queries to parse raw json into daily `<dataset>.parsed_<table>_yyyymmdd` tables. 
 
-## cURL example post
+## cURL example POST request
 
 ```
 curl --location --request POST 'https://us-east1-gcp-telemetry-example.cloudfunctions.net/handle_telemetry_event' \
@@ -21,7 +23,7 @@ curl --location --request POST 'https://us-east1-gcp-telemetry-example.cloudfunc
     }'
 ```
 
-## Python example post
+## Python example POST request
 
 ```python
 import json
@@ -69,3 +71,8 @@ timestamp,event_type,event_key,a1_key1,a1_key2
 ```
 
 ![Alt text](misc/bq.jpg?raw=true "Results in BigQuery UI.")
+
+## Notes
+
+- Terraform is used to create all GCP resources.
+- All project Stackdriver logs are sinked to a BigQuery dataset called `stackdriver`.

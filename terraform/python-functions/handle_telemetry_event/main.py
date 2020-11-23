@@ -71,6 +71,9 @@ def handle_telemetry_event(request):
     """
     """
 
+    if request.method != 'POST':
+        raise ValueError(f'POST requests only')
+
     request_json = request.get_json(silent=True)
     response = process_request_json(request_json)
 
