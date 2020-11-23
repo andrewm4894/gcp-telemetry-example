@@ -28,6 +28,10 @@ resource "google_bigquery_data_transfer_config" "telemetry_data_empty" {
 # telemetry_data_parsed
 ###########################################################
 
+/*
+Specific SQL to parse out expected event data into individual columns in parsed_...._yyyymmdd table's for end users.
+*/
+
 resource "google_bigquery_data_transfer_config" "telemetry_data_parsed" {
   for_each               = toset(var.telemetry_dataset_table_list)
   display_name           = replace(each.value, "/", ".")

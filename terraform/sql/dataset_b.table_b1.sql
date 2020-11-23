@@ -1,3 +1,8 @@
+
+/*
+Specific SQL to parse out expected event data into individual columns in parsed_...._yyyymmdd table's for end users.
+*/
+
 SELECT
   timestamp,
   event_type,
