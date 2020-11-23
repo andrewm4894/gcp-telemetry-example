@@ -12,9 +12,9 @@ event_data = {
 }
 data = {
     "gcs_custom_prefix": "andrewm4894",
-    "bq_destination_project": "gcp-telemetry-example",
-    "bq_destination_dataset": "dataset_a",
-    "bq_destination_table": "table_a1",
+    "project": "gcp-telemetry-example",
+    "dataset": "dataset_a",
+    "table": "table_a1",
     "event_type": "dev",
     "event_key": "123456",
     "event_data": json.dumps(event_data)
