@@ -55,7 +55,7 @@ def process_request_json(request_json):
         'event_data': event_data
     }
     blob.upload_from_string(
-        data=json.dumps(gcs_data),
+        data=f'{json.dumps(gcs_data)}\n',
         content_type='application/json'
     )
 

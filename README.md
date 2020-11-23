@@ -67,3 +67,5 @@ timestamp,event_type,event_key,a1_key1,a1_key2
 2020-11-22 03:30:00.141171,example,example,a1_value1,a1_value2
 */
 ```
+
+![Alt text](misc/bq.jpg?raw=true "Results in BigQuery UI.")

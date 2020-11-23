@@ -11,7 +11,7 @@ variable "pyfunc_info_handle_telemetry_event" {
   type = map(string)
   default = {
     name    = "handle_telemetry_event"
-    version = "v1.4"
+    version = "v1.5"
   }
 }
 
