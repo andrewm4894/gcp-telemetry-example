@@ -2,10 +2,11 @@
 
 ## Overview
 
-1. Public HTTP cloud function receives POST requests.
+1. Public HTTP cloud function `handle_telemetry_event` receives POST requests.
 2. Cloud function saves event as a json file to GCS specific to each `dataset` and `table` combination.
-3. BigQuery data transfer job to ingest GCS files into `<dataset>.raw_<table>_yyyymmdd` tables in BigQuery.
-4. Scheduled BigQuery queries to parse raw json into daily `<dataset>.parsed_<table>_yyyymmdd` tables. 
+3. A separate cloud function `compose_telemetry_events` runs regulary to consolidate single event files into bigger files.
+4. BigQuery data transfer job to ingest GCS files into `<dataset>.raw_<table>_yyyymmdd` tables in BigQuery.
+5. Scheduled BigQuery queries to parse raw json into daily `<dataset>.parsed_<table>_yyyymmdd` tables. 
 
 ## cURL example POST request
 
