@@ -16,7 +16,7 @@ resource "google_bigquery_data_transfer_config" "telemetry_data_gcs_to_bq" {
   destination_dataset_id = element(split("/", each.value), 0)
   params = {
     destination_table_name_template = "raw_${element(split("/", each.value), 1)}_{run_time-1h|\"%Y%m%d\"}"
-    data_path_template              = "gs://${var.custom_prefix}_${replace(each.value, "/", "_")}/{run_time|\"%Y\"}/{run_time|\"%m\"}/{run_time|\"%d\"}/{run_time-1h|\"%H\"}/*.json"
+    data_path_template              = "gs://${var.gcs_custom_prefix}_${replace(each.value, "/", "_")}/{run_time|\"%Y\"}/{run_time|\"%m\"}/{run_time|\"%d\"}/{run_time-1h|\"%H\"}/*.json"
     file_format                     = "JSON"
     max_bad_records                 = 100
     allow_jagged_rows               = "true"

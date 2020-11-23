@@ -11,7 +11,7 @@ variable "pyfunc_info_handle_telemetry_event" {
   type = map(string)
   default = {
     name    = "handle_telemetry_event"
-    version = "v1.3"
+    version = "v1.4"
   }
 }
 
@@ -24,7 +24,7 @@ data "archive_file" "pyfunc_zip_handle_telemetry_event" {
 
 # create the storage bucket
 resource "google_storage_bucket" "pyfunc_handle_telemetry_event" {
-  name = "${var.custom_prefix}_pyfunc_${var.pyfunc_info_handle_telemetry_event.name}"
+  name = "${var.gcs_custom_prefix}_pyfunc_${var.pyfunc_info_handle_telemetry_event.name}"
 }
 
 # place the zip-ed code in the bucket
@@ -46,6 +46,7 @@ resource "google_cloudfunctions_function" "pyfunc_handle_telemetry_event" {
   timeout               = 120
   runtime               = "python37"
   environment_variables = {
+    GCS_CUSTOM_PREFIX = var.gcs_custom_prefix
   }
 }
 

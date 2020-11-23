@@ -1,5 +1,10 @@
 # gcp-telemetry-example
 
+1. Public HTTP cloud function receives POST requests.
+2. Cloud function saves event as a json file to GCS specific to each `dataset` and `table` combination.
+3. BigQuery data transfer job to ingest GCS files into `<dataset>.raw_<table>_yyyymmdd` tables in BigQuery.
+4. Scheduled BigQuery queries to parse raw json into daily `<dataset>.parsed_<table>_yyyymmdd` tables. 
+
 ## cURL example post
 
 ```
@@ -7,9 +12,9 @@ curl --location --request POST 'https://us-east1-gcp-telemetry-example.cloudfunc
 --header 'Content-Type: application/json' \
 --data-raw '{
     "gcs_custom_prefix": "andrewm4894", 
-    "bq_destination_project": "gcp-telemetry-example", 
-    "bq_destination_dataset": "dataset_a",
-    "bq_destination_table": "table_a2",
+    "project": "gcp-telemetry-example", 
+    "dataset": "dataset_a",
+    "table": "table_a2",
     "event_type": "dev",
     "event_key": "mykey",
     "event_data": "{'\''some_value'\'':'\''some_key'\''}"
@@ -31,9 +36,9 @@ event_data = {
 }
 data = {
     "gcs_custom_prefix": "andrewm4894",
-    "bq_destination_project": "gcp-telemetry-example",
-    "bq_destination_dataset": "dataset_a",
-    "bq_destination_table": "table_a1",
+    "project": "gcp-telemetry-example",
+    "dataset": "dataset_a",
+    "table": "table_a1",
     "event_type": "dev",
     "event_key": "mykey",
     "event_data": json.dumps(event_data)
@@ -49,12 +54,16 @@ print(response.json())
 ## Results in BigQuery
 
 ```SQL
-select
-  *
-from
-  `gcp-telemetry-example.dataset_a.table_a1_20201119`
-where
-  event_type = 'dev'
+SELECT 
+  * 
+FROM 
+  `gcp-telemetry-example.dataset_a.parsed_table_a1_20201122`
+/*
+timestamp,event_type,event_key,a1_key1,a1_key2
+2020-11-22 11:00:00.197725,example,example,a1_value1,a1_value2
+2020-11-22 04:30:00.095965,example,example,a1_value1,a1_value2
+2020-11-22 18:00:00.628708,example,example,a1_value1,a1_value2
+2020-11-22 20:00:00.212486,example,example,a1_value1,a1_value2
+2020-11-22 03:30:00.141171,example,example,a1_value1,a1_value2
+*/
 ```
-
-![Alt text](misc/bq.jpg?raw=true "Results in BigQuery UI.")

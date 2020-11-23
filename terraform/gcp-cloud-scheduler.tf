@@ -19,10 +19,9 @@ resource "google_cloud_scheduler_job" "telemetry_data_liveness" {
       "content-type" : "application/json"
     }
     body = base64encode(jsonencode({
-      "gcs_custom_prefix" : var.custom_prefix,
-      "bq_destination_project" : var.gcp_project_id,
-      "bq_destination_dataset" : element(split("/", each.value), 0),
-      "bq_destination_table" : element(split("/", each.value), 1),
+      "project" : var.gcp_project_id,
+      "dataset" : element(split("/", each.value), 0),
+      "table" : element(split("/", each.value), 1),
       "event_type" : "liveness",
       "event_key" : "liveness",
       "event_data" : "liveness"
@@ -46,10 +45,9 @@ resource "google_cloud_scheduler_job" "telemetry_data_example" {
       "content-type" : "application/json"
     }
     body = base64encode(jsonencode({
-      "gcs_custom_prefix" : var.custom_prefix,
-      "bq_destination_project" : var.gcp_project_id,
-      "bq_destination_dataset" : element(split("/", each.value), 0),
-      "bq_destination_table" : element(split("/", each.value), 1),
+      "project" : var.gcp_project_id,
+      "dataset" : element(split("/", each.value), 0),
+      "table" : element(split("/", each.value), 1),
       "event_type" : "example",
       "event_key" : "example",
       "event_data" : var.example_event_data[each.value]

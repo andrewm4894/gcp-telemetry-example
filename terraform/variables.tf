@@ -13,9 +13,9 @@ variable "gcp_bq_location" {
   default = "US"
 }
 
-variable "custom_prefix" {
+variable "gcs_custom_prefix" {
   type    = string
-  default = "andrewm4894"
+  default = var.gcp_project_id
 }
 
 # define datasets in scope
@@ -40,7 +40,7 @@ variable "telemetry_dataset_table_list" {
 
 # example expected data for each event
 variable "example_event_data" {
-  type    = map(string)
+  type = map(string)
   default = {
     "dataset_a/table_a1" = "{'a1_key1': 'a1_value1', 'a1_key2': 'a1_value2'}"
     "dataset_a/table_a2" = "{'a2_key1': 'a2_value1', 'a2_key2': 'a2_value2', 'a2_key3': 'a2_value3'}"
